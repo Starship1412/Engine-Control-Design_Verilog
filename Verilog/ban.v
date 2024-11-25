@@ -9,17 +9,14 @@ module design_controller_01 (button , sense, clock, reset, enable, motor);
     DELAY_STOP = 2'b01;              // button is pressed again, the engine is killed slowly!
     assign enable = (current_state == STARTING) || (current_state == RUNNING);
     assign motor = (current_state == RUNNING);
-   
+
     always @(posedge clock or posedge reset)
-    begin
         if (reset)
             current_state <= IDLE;
         else
             current_state = next_state;
-    end
        
     always @(current_state, button, sense)
-    begin
         case (current_state)
             IDLE:
                 if (button && !sense)
@@ -50,5 +47,4 @@ module design_controller_01 (button , sense, clock, reset, enable, motor);
             default:
                 next_state = IDLE;
         endcase
-    end
 endmodule
